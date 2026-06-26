@@ -25,7 +25,7 @@ Basic CRUD app with add/edit/delete item functionality.
 - Filter by category (dynamically populated)
 - Sort by name, expiry date, or recently added
 - Stats bar (total items, unique categories, expiring-soon count)
-- 12 food categories with emoji icons
+- 12 food categories
 - 4 storage locations (Fridge, Freezer, Pantry, Counter)
 - Expiry badges with color coding (fresh/warning/expired)
 - All data persisted to `localStorage`
