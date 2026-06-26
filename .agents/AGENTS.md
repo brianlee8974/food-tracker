@@ -91,7 +91,7 @@ The pantry data feeds into a recipe recommendation system.
 
 - **Current stack:** Vanilla HTML + CSS + JavaScript (no framework)
 - **Data persistence:** `localStorage` (may migrate to a backend/database in later milestones)
-- **Design language:** Dark theme, purple accent gradients, glassmorphism, micro-animations, mobile-responsive
+- **Design language:** Light theme (warm whites), purple accent gradients, clean card UI, micro-animations, no emojis, mobile-responsive
 - **Font:** Inter (Google Fonts)
 
 ## Rules

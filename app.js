@@ -3,28 +3,28 @@
    =================================================== */
 
 // ——————————————————————————————————————————————————————
-// Category → emoji mapping
+// Category → abbreviation mapping
 // ——————————————————————————————————————————————————————
-const CATEGORY_EMOJI = {
-  'Produce':              '🥦',
-  'Meat & Seafood':       '🥩',
-  'Dairy':                '🧀',
-  'Bakery':               '🍞',
-  'Frozen':               '🧊',
-  'Canned Goods':         '🥫',
-  'Grains & Pasta':       '🌾',
-  'Snacks':               '🍿',
-  'Beverages':            '🥤',
-  'Condiments & Sauces':  '🫙',
-  'Spices & Herbs':       '🌿',
-  'Other':                '📦',
+const CATEGORY_ABBREV = {
+  'Produce': 'PRD',
+  'Meat & Seafood': 'M&S',
+  'Dairy': 'DRY',
+  'Bakery': 'BKY',
+  'Frozen': 'FRZ',
+  'Canned Goods': 'CAN',
+  'Grains & Pasta': 'G&P',
+  'Snacks': 'SNK',
+  'Beverages': 'BEV',
+  'Condiments & Sauces': 'C&S',
+  'Spices & Herbs': 'S&H',
+  'Other': 'OTH',
 };
 
 const STORAGE_LABEL = {
-  'Fridge':  '❄️ Fridge',
-  'Freezer': '🧊 Freezer',
-  'Pantry':  '🗄️ Pantry',
-  'Counter': '🍌 Counter',
+  'Fridge': 'Fridge',
+  'Freezer': 'Freezer',
+  'Pantry': 'Pantry',
+  'Counter': 'Counter',
 };
 
 // ——————————————————————————————————————————————————————
@@ -37,34 +37,34 @@ let deletingId = null;
 // ——————————————————————————————————————————————————————
 // DOM references
 // ——————————————————————————————————————————————————————
-const $list          = document.getElementById('item-list');
-const $emptyState    = document.getElementById('empty-state');
-const $fabAdd        = document.getElementById('fab-add');
-const $modalOverlay  = document.getElementById('modal-overlay');
-const $modalTitle    = document.getElementById('modal-title');
-const $modalClose    = document.getElementById('modal-close');
-const $form          = document.getElementById('item-form');
-const $formId        = document.getElementById('form-id');
-const $formName      = document.getElementById('form-name');
-const $formCategory  = document.getElementById('form-category');
-const $formStorage   = document.getElementById('form-storage');
-const $formQuantity  = document.getElementById('form-quantity');
-const $formUnit      = document.getElementById('form-unit');
-const $formExpiry    = document.getElementById('form-expiry');
-const $formNotes     = document.getElementById('form-notes');
-const $btnCancel     = document.getElementById('btn-cancel');
-const $btnSave       = document.getElementById('btn-save');
-const $searchInput   = document.getElementById('search-input');
+const $list = document.getElementById('item-list');
+const $emptyState = document.getElementById('empty-state');
+const $fabAdd = document.getElementById('fab-add');
+const $modalOverlay = document.getElementById('modal-overlay');
+const $modalTitle = document.getElementById('modal-title');
+const $modalClose = document.getElementById('modal-close');
+const $form = document.getElementById('item-form');
+const $formId = document.getElementById('form-id');
+const $formName = document.getElementById('form-name');
+const $formCategory = document.getElementById('form-category');
+const $formStorage = document.getElementById('form-storage');
+const $formQuantity = document.getElementById('form-quantity');
+const $formUnit = document.getElementById('form-unit');
+const $formExpiry = document.getElementById('form-expiry');
+const $formNotes = document.getElementById('form-notes');
+const $btnCancel = document.getElementById('btn-cancel');
+const $btnSave = document.getElementById('btn-save');
+const $searchInput = document.getElementById('search-input');
 const $categoryFilter = document.getElementById('category-filter');
-const $sortSelect    = document.getElementById('sort-select');
+const $sortSelect = document.getElementById('sort-select');
 const $deleteOverlay = document.getElementById('delete-overlay');
-const $deleteClose   = document.getElementById('delete-close');
+const $deleteClose = document.getElementById('delete-close');
 const $deleteItemName = document.getElementById('delete-item-name');
-const $btnDeleteCancel  = document.getElementById('btn-delete-cancel');
+const $btnDeleteCancel = document.getElementById('btn-delete-cancel');
 const $btnDeleteConfirm = document.getElementById('btn-delete-confirm');
-const $statTotal     = document.querySelector('#stat-total .stat-value');
+const $statTotal = document.querySelector('#stat-total .stat-value');
 const $statCategories = document.querySelector('#stat-categories .stat-value');
-const $statExpiring  = document.querySelector('#stat-expiring .stat-value');
+const $statExpiring = document.querySelector('#stat-expiring .stat-value');
 
 // ——————————————————————————————————————————————————————
 // Persistence (localStorage)
@@ -92,7 +92,7 @@ function generateId() {
 function daysUntil(dateStr) {
   if (!dateStr) return null;
   const expiry = new Date(dateStr + 'T00:00:00');
-  const today  = new Date();
+  const today = new Date();
   today.setHours(0, 0, 0, 0);
   return Math.ceil((expiry - today) / (1000 * 60 * 60 * 24));
 }
@@ -100,10 +100,10 @@ function daysUntil(dateStr) {
 function expiryBadge(dateStr) {
   const days = daysUntil(dateStr);
   if (days === null) return { class: 'badge-none', text: 'No date' };
-  if (days < 0)      return { class: 'badge-expired', text: 'Expired' };
-  if (days === 0)    return { class: 'badge-expired', text: 'Today' };
-  if (days <= 3)     return { class: 'badge-warning', text: `${days}d left` };
-  if (days <= 7)     return { class: 'badge-warning', text: `${days}d left` };
+  if (days < 0) return { class: 'badge-expired', text: 'Expired' };
+  if (days === 0) return { class: 'badge-expired', text: 'Today' };
+  if (days <= 3) return { class: 'badge-hard-warning', text: `${days}d left` };
+  if (days <= 7) return { class: 'badge-warning', text: `${days}d left` };
   return { class: 'badge-fresh', text: `${days}d left` };
 }
 
@@ -143,12 +143,12 @@ function createItemCard(item) {
   card.className = 'item-card';
   card.dataset.id = item.id;
 
-  const emoji = CATEGORY_EMOJI[item.category] || '📦';
+  const abbrev = CATEGORY_ABBREV[item.category] || 'OTH';
   const badge = expiryBadge(item.expiry);
   const storageLbl = STORAGE_LABEL[item.storage] || item.storage;
 
   card.innerHTML = `
-    <div class="item-emoji">${emoji}</div>
+    <div class="item-icon">${abbrev}</div>
     <div class="item-info">
       <div class="item-name">${escapeHtml(item.name)}</div>
       <div class="item-meta">
@@ -160,12 +160,8 @@ function createItemCard(item) {
       </div>
     </div>
     <div class="item-actions">
-      <button class="btn-edit" aria-label="Edit" title="Edit">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-      </button>
-      <button class="btn-delete" aria-label="Delete" title="Delete">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>
-      </button>
+      <button class="btn-edit" aria-label="Edit" title="Edit">&#x270E;</button>
+      <button class="btn-delete" aria-label="Delete" title="Delete">&times;</button>
     </div>
   `;
 
@@ -222,7 +218,7 @@ function updateCategoryFilter() {
   cats.forEach(c => {
     const opt = document.createElement('option');
     opt.value = c;
-    opt.textContent = `${CATEGORY_EMOJI[c] || '📦'} ${c}`;
+    opt.textContent = c;
     $categoryFilter.appendChild(opt);
   });
 
@@ -237,12 +233,12 @@ function updateCategoryFilter() {
 // ——————————————————————————————————————————————————————
 function getFilteredSortedItems() {
   const query = $searchInput.value.toLowerCase().trim();
-  const cat   = $categoryFilter.value;
-  const sort  = $sortSelect.value;
+  const cat = $categoryFilter.value;
+  const sort = $sortSelect.value;
 
   let result = items.filter(item => {
     const matchesSearch = !query || item.name.toLowerCase().includes(query) || (item.notes && item.notes.toLowerCase().includes(query));
-    const matchesCat    = cat === 'all' || item.category === cat;
+    const matchesCat = cat === 'all' || item.category === cat;
     return matchesSearch && matchesCat;
   });
 
@@ -294,13 +290,13 @@ function openEditModal(id) {
   $modalTitle.textContent = 'Edit Item';
   $btnSave.textContent = 'Update Item';
 
-  $formName.value     = item.name;
+  $formName.value = item.name;
   $formCategory.value = item.category;
-  $formStorage.value  = item.storage;
+  $formStorage.value = item.storage;
   $formQuantity.value = item.quantity;
-  $formUnit.value     = item.unit;
-  $formExpiry.value   = item.expiry || '';
-  $formNotes.value    = item.notes || '';
+  $formUnit.value = item.unit;
+  $formExpiry.value = item.expiry || '';
+  $formNotes.value = item.notes || '';
 
   $modalOverlay.classList.remove('hidden');
   $formName.focus();
@@ -330,13 +326,13 @@ function closeDeleteConfirm() {
 function handleFormSubmit(e) {
   e.preventDefault();
 
-  const name     = $formName.value.trim();
+  const name = $formName.value.trim();
   const category = $formCategory.value;
-  const storage  = $formStorage.value;
+  const storage = $formStorage.value;
   const quantity = parseFloat($formQuantity.value) || 1;
-  const unit     = $formUnit.value;
-  const expiry   = $formExpiry.value || '';
-  const notes    = $formNotes.value.trim();
+  const unit = $formUnit.value;
+  const expiry = $formExpiry.value || '';
+  const notes = $formNotes.value.trim();
 
   if (!name) return;
 
