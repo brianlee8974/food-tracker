@@ -42,7 +42,7 @@ Basic CRUD app with add/edit/delete item functionality, migrated to Next.js.
 
 ---
 
-### Milestone 1.5 — Account Management + Data Layer (🔄 Next)
+### Milestone 2 — Account Management + Data Layer (🔄 Next)
 
 Establish user accounts and persistent database infrastructure before implementing LLM/OCR features.
 

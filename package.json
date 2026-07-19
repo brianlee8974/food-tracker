@@ -5,11 +5,20 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "node tests/test-integration.mjs"
   },
   "dependencies": {
+    "@prisma/adapter-better-sqlite3": "^7.8.0",
+    "bcryptjs": "^3.0.3",
+    "better-sqlite3": "^12.11.1",
     "next": "16.2.9",
+    "next-auth": "^5.0.0-beta.31",
     "react": "19.2.4",
     "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@prisma/client": "^7.8.0",
+    "prisma": "^7.8.0"
   }
 }
