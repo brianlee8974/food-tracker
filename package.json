@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test": "node tests/test-integration.mjs"
   },
   "dependencies": {
     "@prisma/adapter-better-sqlite3": "^7.8.0",
