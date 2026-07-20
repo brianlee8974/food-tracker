@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
+  serverExternalPackages: ['@prisma/client', 'bcryptjs', 'better-sqlite3'],
 };
 
 export default nextConfig;

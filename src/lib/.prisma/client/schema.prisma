@@ -1,0 +1,47 @@
+// Pantry — Food Tracker Data Schema
+// Defines User accounts and Item inventory with relationships
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/lib/.prisma/client"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// User account — manages authentication and profile
+model User {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  passwordHash     String
+  name             String?
+  resetToken       String? // For password reset functionality
+  resetTokenExpiry DateTime? // When reset token expires
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  // Relations
+  items Item[]
+}
+
+// Food item in user's pantry — owned by a user
+model Item {
+  id     String @id @default(cuid())
+  userId String // Foreign key to User
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  name     String
+  category String // e.g. "Produce", "Meat & Seafood"
+  storage  String // e.g. "Fridge", "Freezer", "Pantry", "Counter"
+  quantity Float
+  unit     String // e.g. "pcs", "lbs", "oz", "kg", etc.
+  expiry   String? // ISO date string, nullable for items with no expiry
+  notes    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([expiry]) // Index for fast expiry queries
+}

@@ -11,7 +11,7 @@ import DeleteModal from '@/components/DeleteModal';
 import Fab from '@/components/Fab';
 
 export default function Home() {
-  const { items, isLoaded, addItem, updateItem, deleteItem, getItem, stats, activeCategories, getFilteredSortedItems } = useItems();
+  const { items, isLoaded, error, clearError, addItem, updateItem, deleteItem, getItem, stats, activeCategories, getFilteredSortedItems } = useItems();
 
   // UI state
   const [searchQuery, setSearchQuery] = useState('');
@@ -70,6 +70,12 @@ export default function Home() {
   return (
     <div className="app">
       <Header />
+      {error && (
+        <div className="error-banner">
+          <span>{error}</span>
+          <button onClick={clearError} aria-label="Dismiss error">&times;</button>
+        </div>
+      )}
       <StatsBar stats={stats} />
       <Toolbar
         searchQuery={searchQuery}
