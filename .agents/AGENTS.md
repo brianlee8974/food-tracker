@@ -43,6 +43,7 @@ Basic CRUD app with add/edit/delete item functionality, migrated to Next.js.
 ---
 
 ### Milestone 1.5 — Account Management + Data Layer (🔄 Next)
+ Account Management + Data Layer (🔄 Next)
 
 Establish user accounts and persistent database infrastructure before implementing LLM/OCR features.
 
@@ -164,4 +165,3 @@ The pantry data feeds into a recipe recommendation system.
 - Do not introduce features from future milestones unless explicitly instructed.
 - Preserve the existing design language and CSS custom properties when adding new features.
 - Keep the app functional as a static site for as long as possible; only introduce a backend when genuinely needed.
-- All existing comments and docstrings unrelated to your changes must be preserved.
